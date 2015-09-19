@@ -1,0 +1,55 @@
+{
+  "name": "react_tokipona",
+  "version": "0.0.0",
+  "description": "Read Toki Pona with computer-assisted translation and text highlighting.",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "hhttps://github.com/justinsilvestre/tokipona_react.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "boilerplate",
+    "hot",
+    "reload",
+    "hmr",
+    "live",
+    "edit",
+    "webpack",
+    "babel",
+    "react-transform"
+  ],
+  "author": "Justin Silvestre <justinsilvestre@gmail.com> (http://github.com/justinsilvestre)",
+  "license": "CC BY-NC-SA",
+  "homepage": "https://github.com/justinsilvestre/tokipona_react",
+  "devDependencies": {
+    "babel-core": "^5.4.7",
+    "babel-eslint": "^3.1.9",
+    "babel-loader": "^5.1.2",
+    "babel-plugin-react-transform": "^1.0.1",
+    "css-loader": "^0.17.0",
+    "eslint": "^1.3.1",
+    "eslint-plugin-react": "^2.3.0",
+    "express": "^4.13.3",
+    "lodash-contrib": "^393.0.1",
+    "node-sass": "^3.3.2",
+    "react-transform-catch-errors": "^0.1.1",
+    "react-transform-webpack-hmr": "^0.1.2",
+    "redbox-react": "^1.0.1",
+    "redux-devtools": "^2.1.2",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.9.6",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.0.0"
+  },
+  "dependencies": {
+    "react": "^0.13.0",
+    "react-redux": "^2.1.2",
+    "redux": "^3.0.0"
+  }
+}
