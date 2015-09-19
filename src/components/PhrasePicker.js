@@ -1,0 +1,26 @@
+import React, { Component } from 'react';
+import _ from 'lodash';
+
+export default class PhrasePicker extends React.Component {
+	render() {
+		var enRoles = _.uniq(this.props.data.choices.map(choice => choice.role));
+		var senI = this.props.data.sentenceIndex;
+		var phrI = this.props.data.phraseIndex;
+
+		return (
+			<div className='phrasepicker'>
+				{this.props.data ?
+					enRoles.map(role => {
+						return [
+							<b className="phrasepicker-role">{role}</b>,
+							this.props.data.choices.filter(c => c.role === role).map(c => {
+								return (<span onClick={(e) => this.props.pickPhrase(senI, phrI, c)}>{c.base_form} </span>);
+							})
+						]
+					}) : 'no phrase selected'
+				}
+				
+			</div>
+		);
+	}
+}

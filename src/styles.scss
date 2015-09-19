@@ -1,0 +1,111 @@
+.phrasepicker {
+	position: fixed;
+	top: 0;
+	background-color: aliceblue;
+}
+.phrasepicker-role {
+	display: block;
+}
+
+
+.syntax-highlight {
+
+	.sentence {
+		display: inline-block;
+		padding-right: .3em;
+
+		.highlighted {
+			color: #E8E830 !important;
+			* { color: inherit; }
+		}
+
+		.end-punct {
+			position: relative; right: .2em;
+		}
+	}
+
+	.vocative {
+		color: #C7BC0B;
+	}
+
+	.context {
+		color: #D8AACA;
+
+		.subject {
+			color: #D8AACA;
+			.complement {
+				color: #D08ABB;
+				.complement {
+					color: #CA60AA;
+				}
+			}
+		}
+		.predicate {
+			color: #EA8D9E;
+			.complement {
+				color: #F07D92;
+				.complement {
+					color: #FB6A84;
+				}
+			}
+			.negative {
+				color: #D25C35;
+			}
+		}
+
+
+
+		.direct-object {
+			color: #AB934E;
+			.complement {
+				color: #B77F38;
+				.complement {
+					color: #B86F37;
+				}
+			}
+		}
+	}
+
+	.subject {
+		color: #A3AB8D;
+		.complement {
+			color: #868A7B;
+		}
+	}
+
+	.predicate {
+		color: #4682B4;
+
+		.modal-particle {
+		}
+
+		.complement {
+			color: #5AAACE
+		}
+	}
+
+	.emphatic { 
+		color: #ED9623;
+	}
+	.interrogative {
+		color: #6FEC20;
+	}
+
+		.negative {
+			color: #755C3A;
+		}
+
+	.direct-object {
+				color: #7DAB4E;
+		.complement {
+			color: #409E6B;
+			.complement {
+		color: #40929E;
+			}
+		}
+	}
+
+	.modal-particle, .e, .pi, .la {
+		font-weight: 100;
+	}
+}
