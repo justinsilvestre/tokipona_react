@@ -2,6 +2,7 @@ export const SHOW_PHRASE_PICKER = 'SHOW_PHRASE_PICKER';
 export const HIDE_PHRASE_PICKER = 'HIDE_PHRASE_PICKER';
 export const PICK_ENGLISH_PHRASE = 'PICK_ENGLISH_PHRASE';
 export const HIGHLIGHT_PHRASE_PAIR = 'HIGHLIGHT_PHRASE_PAIR';
+export const END_PHRASE_HIGHLIGHT = 'END_PHRASE_HIGHLIGHT';
 
 export function showPhrasePicker(sentenceIndex, phraseIndex, tpPhraseId) {
 	return {
@@ -33,4 +34,12 @@ export function highlightPhrasePair(sentenceIndex, phraseIndex) {
 		sentenceIndex,
 		phraseIndex
 	};
+}
+
+export function endPhraseHighlight(sentenceIndex, phraseIndex) {
+	return {
+		type: END_PHRASE_HIGHLIGHT,
+		sentenceIndex,
+		phraseIndex
+	}
 }

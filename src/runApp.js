@@ -3,23 +3,22 @@ import { connect, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import translateTokiponaApp from './reducers';
-import { eachWithIndex as eachHeadWithIndex } from './heads'
+import _ from 'lodash';
 
 export default function runTokiponaApp(analysis, rootElementId) {
-
-	for (var i = 0; i < analysis.tree.length; i++) {
-		eachHeadWithIndex(analysis.tree[i], (head, phrase, headIndex) => {
-			phrase.h = headIndex;
-		});
-	}
-
 	const initialState = {
-		tpSentences: analysis.tree,
 	  tpPhrases: analysis.tokipona_phrases,
-	  enPhrases: analysis.english_phrases.sort((p1, p2) => p2.uses - p1.uses)
+	  enPhrases: analysis.english_phrases.sort((p1, p2) => p2.uses - p1.uses),
+	  tpSentences: analysis.tokipona_sentences.map(sen => {
+	  	return Object.assign({}, sen, { substantives:
+		  	sen.substantives.map(s => {
+		  		const tp = analysis.tokipona_phrases.find((p) => _.isEqual([p.words, p.role], [s.word, s.pos]));
+		  		return Object.assign({}, s, { id: (tp && tp.id) })
+		  	})
+		  })
+	  })
 	};
-
-	var store = createStore(translateTokiponaApp, initialState);
+	const store = createStore(translateTokiponaApp, initialState);
 
 	React.render(
 		<Provider store={store}>

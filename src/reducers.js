@@ -1,17 +1,9 @@
 require('babel-core/polyfill');
 
 import { combineReducers } from 'redux';
-import { SHOW_PHRASE_PICKER, HIDE_PHRASE_PICKER, PICK_ENGLISH_PHRASE, HIGHLIGHT_PHRASE_PAIR } from './actions';
+import { SHOW_PHRASE_PICKER, HIDE_PHRASE_PICKER, PICK_ENGLISH_PHRASE, HIGHLIGHT_PHRASE_PAIR, END_PHRASE_HIGHLIGHT } from './actions';
 
-import { each as eachHead } from './heads';
 import { headRole, principalForm } from './grammar';
-
-function tpSentences(sentences=[], action) {
-	switch(action.type) {
-	default:
-		return sentences;
-	}
-}
 
 function tpPhrases(phrases=[], action) {
 	switch(action.type) {
@@ -28,23 +20,28 @@ function enPhrases(phrases=[], action) {
 }
 
 function initialEnSentences(tpSentences, tpPhrases, enPhrases) {
-	return tpSentences.map(tpSentence => {
-    var sentence = [];
-    eachHead(tpSentence, (head, parent) => {
-      var tpPhrase = tpPhrases.find(phrase => phrase.words === principalForm(head));
-      var enPhrase = tpPhrase ? enPhrases.find(phrase => phrase.tokipona_phrase_id === tpPhrase.id) : null;
-      sentence.push(enPhrase);
-    });
-    return sentence;
-  });
+	return tpSentences.map(sen => {
+		return sen.substantives.map(s => {
+			var tpPhrase = tpPhrases.find(phrase => phrase.words === principalForm(s.word));
+			return enPhrases.find(phrase => phrase.tokipona_phrase_id === tpPhrase.id) || {};
+		})
+	});
+}
+
+Array.prototype.set = function(index, newValue) {
+	return [...this.slice(0, index), newValue, ...this.slice(index + 1)]
 }
 
 function enSentences(state={}, action) {
+	const sentenceIndex = action.sentenceIndex;
+	const phraseIndex = action.phraseIndex;
+
 	const { tpSentences, tpPhrases, enPhrases } = state;
 	const sentences = state.enSentences ? state.enSentences : initialEnSentences(tpSentences, tpPhrases, enPhrases);
 
 	switch(action.type) {
 	case PICK_ENGLISH_PHRASE:
+		// return sentences.set(sentenceIndex, sentences[action.sentenceIndex].set(action.phraseData));
 		return [...sentences.slice(0, action.sentenceIndex),
 
 			[
@@ -55,6 +52,12 @@ function enSentences(state={}, action) {
 
 			...sentences.slice(action.sentenceIndex + 1)
 		];
+	case HIGHLIGHT_PHRASE_PAIR:
+		var newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: true })
+		return sentences.set(sentenceIndex, sentences[sentenceIndex].set(phraseIndex, newPhraseObj));
+	case END_PHRASE_HIGHLIGHT:
+		var newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: false })
+		return sentences.set(sentenceIndex, sentences[sentenceIndex].set(phraseIndex, newPhraseObj));
 	default:
 		return sentences;
 	}
@@ -73,6 +76,33 @@ function editingPhrase(editingPhrase=null, enPhrases, action) {
 		return null;
 	default:
 		return editingPhrase;
+	}
+}
+
+function tpSentences(tpSentences=[], action) {
+	var newPhraseObj;
+	const sentenceIndex = action.sentenceIndex;
+	const phraseIndex = action.phraseIndex;
+
+	switch(action.type) {
+	case (HIGHLIGHT_PHRASE_PAIR):
+	newPhraseObj = Object.assign({}, tpSentences[sentenceIndex].substantives[phraseIndex], { highlighted: true })
+		return tpSentences.set(sentenceIndex, 
+			Object.assign({}, tpSentences[sentenceIndex], {
+				substantives:
+				tpSentences[sentenceIndex].substantives.set(phraseIndex, newPhraseObj)
+			})
+		);
+	case END_PHRASE_HIGHLIGHT:
+	newPhraseObj = Object.assign({}, tpSentences[sentenceIndex].substantives[phraseIndex], { highlighted: false })
+		return tpSentences.set(sentenceIndex, 
+			Object.assign({}, tpSentences[sentenceIndex], {
+				substantives:
+				tpSentences[sentenceIndex].substantives.set(phraseIndex, newPhraseObj)
+			})
+		);
+	default:
+		return tpSentences;
 	}
 }
 

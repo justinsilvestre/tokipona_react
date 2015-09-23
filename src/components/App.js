@@ -3,15 +3,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as TranslateTokiponaActions from '../actions';
 
-import Sentence from './Sentence';
-import EnglishSentence from './EnglishSentence';
+import TpSentence from './TpSentence';
+import EnSentence from './EnSentence';
 import PhrasePicker from './PhrasePicker';
-
-require('!style!css!sass!../styles.scss');
 
 class App extends Component {
   handleClick(e) {
-    if (e.target.className !== 'phrasepicker') {
+    if (this.props.editingPhrase && (e.target.className !== 'phrasepicker')) {
       this.props.dispatch(TranslateTokiponaActions.hidePhrasePicker());
     }
   }
@@ -19,17 +17,32 @@ class App extends Component {
   render() {
     const { dispatch } = this.props;
     const actions = bindActionCreators(TranslateTokiponaActions, dispatch)
-    
+    function phraseHighlighters(i) {
+      return {
+        highlightPhrasePair: phraseIndex => actions.highlightPhrasePair(i, phraseIndex),
+        endPhraseHighlight: phraseIndex => actions.endPhraseHighlight(i, phraseIndex)
+      };
+    }
+
     return (
       <div className="translation syntax-highlight" onClick={this.handleClick.bind(this)}>
-        {this.props.editingPhrase ? <PhrasePicker data={this.props.editingPhrase} pickPhrase={actions.pickPhrase}/> : null}
-
-        {this.props.tpSentences.map((sentence, i) =>
-          <div key={i}>
-            <Sentence analysis={sentence} counterpart={this.props.enSentences[i]} />
-            <EnglishSentence sentenceIndex={i} analysis={this.props.enSentences[i]} counterpart={sentence} actions={actions} />
-          </div>
-        )}
+      {this.props.editingPhrase &&
+        <PhrasePicker data={this.props.editingPhrase}
+          pickPhrase={actions.pickPhrase} ></PhrasePicker>}
+      {this.props.tpSentences.map((s, i) => 
+        <div key={i}>
+          <TpSentence substantives={s.substantives}
+            endPunctuation={s.end_punctuation}
+            emphatic={s.emphatic}
+            question_tag={s.question_tag}
+            taso={s.taso}
+            {...phraseHighlighters(i)}></TpSentence>
+          <EnSentence phrases={this.props.enSentences[i]}
+            counterpart={s}
+            showPhrasePicker={(phraseIndex, tpId) => actions.showPhrasePicker(i, phraseIndex, tpId)}
+            {...phraseHighlighters(i)} ></EnSentence>
+        </div>
+      )}
       </div>
     );
   }
