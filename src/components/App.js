@@ -25,7 +25,8 @@ class App extends Component {
     }
 
     return (
-      <div className="translation syntax-highlight" onClick={this.handleClick.bind(this)}>
+      <div onClick={this.handleClick.bind(this)}>
+      {this.props.mode}
       {this.props.editingPhrase &&
         <PhrasePicker data={this.props.editingPhrase}
           pickPhrase={actions.pickPhrase} ></PhrasePicker>}
@@ -37,10 +38,10 @@ class App extends Component {
             question_tag={s.question_tag}
             taso={s.taso}
             {...phraseHighlighters(i)}></TpSentence>
-          <EnSentence phrases={this.props.enSentences[i]}
+          {this.props.translate && <EnSentence phrases={this.props.enSentences[i]}
             counterpart={s}
             showPhrasePicker={(phraseIndex, tpId) => actions.showPhrasePicker(i, phraseIndex, tpId)}
-            {...phraseHighlighters(i)} ></EnSentence>
+            {...phraseHighlighters(i)} ></EnSentence>}
         </div>
       )}
       </div>

@@ -5,6 +5,10 @@ import { SHOW_PHRASE_PICKER, HIDE_PHRASE_PICKER, PICK_ENGLISH_PHRASE, HIGHLIGHT_
 
 import { headRole, principalForm } from './grammar';
 
+Array.prototype.iSet = function(index, newValue) {
+	return [...this.slice(0, index), newValue, ...this.slice(index + 1)]
+}
+
 function tpPhrases(phrases=[], action) {
 	switch(action.type) {
 	default:
@@ -23,25 +27,23 @@ function initialEnSentences(tpSentences, tpPhrases, enPhrases) {
 	return tpSentences.map(sen => {
 		return sen.substantives.map(s => {
 			var tpPhrase = tpPhrases.find(phrase => phrase.words === principalForm(s.word));
-			return enPhrases.find(phrase => phrase.tokipona_phrase_id === tpPhrase.id) || {};
+			return enPhrases.find(phrase => phrase.tokipona_phrase_id === (tpPhrase && tpPhrase.id)) || {};
 		})
 	});
 }
 
-Array.prototype.set = function(index, newValue) {
-	return [...this.slice(0, index), newValue, ...this.slice(index + 1)]
-}
 
 function enSentences(state={}, action) {
 	const sentenceIndex = action.sentenceIndex;
 	const phraseIndex = action.phraseIndex;
+	var newPhraseObj;
 
 	const { tpSentences, tpPhrases, enPhrases } = state;
 	const sentences = state.enSentences ? state.enSentences : initialEnSentences(tpSentences, tpPhrases, enPhrases);
 
 	switch(action.type) {
 	case PICK_ENGLISH_PHRASE:
-		// return sentences.set(sentenceIndex, sentences[action.sentenceIndex].set(action.phraseData));
+		return sentences.iSet(sentenceIndex, sentences[sentenceIndex].iSet(phraseIndex, action.phraseData));
 		return [...sentences.slice(0, action.sentenceIndex),
 
 			[
@@ -53,11 +55,11 @@ function enSentences(state={}, action) {
 			...sentences.slice(action.sentenceIndex + 1)
 		];
 	case HIGHLIGHT_PHRASE_PAIR:
-		var newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: true })
-		return sentences.set(sentenceIndex, sentences[sentenceIndex].set(phraseIndex, newPhraseObj));
+		newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: true })
+		return sentences.iSet(sentenceIndex, sentences[sentenceIndex].iSet(phraseIndex, newPhraseObj));
 	case END_PHRASE_HIGHLIGHT:
-		var newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: false })
-		return sentences.set(sentenceIndex, sentences[sentenceIndex].set(phraseIndex, newPhraseObj));
+		newPhraseObj = Object.assign({}, sentences[sentenceIndex][phraseIndex], { highlighted: false })
+		return sentences.iSet(sentenceIndex, sentences[sentenceIndex].iSet(phraseIndex, newPhraseObj));
 	default:
 		return sentences;
 	}
@@ -87,18 +89,18 @@ function tpSentences(tpSentences=[], action) {
 	switch(action.type) {
 	case (HIGHLIGHT_PHRASE_PAIR):
 	newPhraseObj = Object.assign({}, tpSentences[sentenceIndex].substantives[phraseIndex], { highlighted: true })
-		return tpSentences.set(sentenceIndex, 
+		return tpSentences.iSet(sentenceIndex, 
 			Object.assign({}, tpSentences[sentenceIndex], {
 				substantives:
-				tpSentences[sentenceIndex].substantives.set(phraseIndex, newPhraseObj)
+				tpSentences[sentenceIndex].substantives.iSet(phraseIndex, newPhraseObj)
 			})
 		);
 	case END_PHRASE_HIGHLIGHT:
 	newPhraseObj = Object.assign({}, tpSentences[sentenceIndex].substantives[phraseIndex], { highlighted: false })
-		return tpSentences.set(sentenceIndex, 
+		return tpSentences.iSet(sentenceIndex, 
 			Object.assign({}, tpSentences[sentenceIndex], {
 				substantives:
-				tpSentences[sentenceIndex].substantives.set(phraseIndex, newPhraseObj)
+				tpSentences[sentenceIndex].substantives.iSet(phraseIndex, newPhraseObj)
 			})
 		);
 	default:
@@ -107,6 +109,7 @@ function tpSentences(tpSentences=[], action) {
 }
 
 function translateTokiponaApp(state, action) {
+	console.log(action)
 	return {
 		tpSentences: tpSentences(state.tpSentences, action),
 		tpPhrases: tpPhrases(state.tpPhrases, action),

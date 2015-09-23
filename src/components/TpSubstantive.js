@@ -12,13 +12,14 @@ export default class TpSubstantive extends Component {
 		const classes = this.props.roleChain.join(' ');
 		return(
 			<span onMouseEnter={this.props.highlight} onMouseLeave={this.props.endHighlight} className={classes}>
-			{particleEl(initialParticle)}
-			{this.props.analysis.highlighted}
-			<span className={this.props.analysis.highlighted && 'highlighted'}>{word}
-			{this.props.analysis.negative && ' ala'}
-			{this.props.analysis.interrogative && ` ${word}`}
-			</span>
-			&nbsp;{particleEl(finalParticle)}
+				{particleEl(initialParticle)}
+				{this.props.analysis.highlighted}
+				<span className={this.props.analysis.highlighted && 'highlighted'}>
+					{word}
+					{this.props.analysis.negative && ' ala'}
+					{this.props.analysis.interrogative && ` ${word}`}
+				</span>
+				&nbsp;{particleEl(finalParticle)}
 			</span>
 		);
 	}	
