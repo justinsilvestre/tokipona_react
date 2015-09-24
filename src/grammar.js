@@ -23,6 +23,14 @@ export function principalForm(word) {
 	}
 }
 
+export const posNames = {
+	i: 'noun/adjective/intransitive verb',
+	t: 'transitive verb',
+	pro: 'proper noun',
+	prev: 'preverb',
+	prep: 'preposition'
+}
+
 export function phraseStart(sentence, wordIndex) {
 	var word = sentence[wordIndex];
 	return hasParent(word) ? phraseStart(sentence, word.parent) : wordIndex;

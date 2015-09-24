@@ -25,11 +25,8 @@
 
 .highlighted { color: #F8D115 !important; }
 
-.phrasepicker {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
+.phrasepicker, .popup-gloss {
+	position: absolute;
 	background-color: aliceblue;
 }
 .phrasepicker-role {

@@ -11,7 +11,11 @@ export default class TpSubstantive extends Component {
 
 		const classes = this.props.roleChain.join(' ');
 		return(
-			<span onMouseEnter={this.props.highlight} onMouseLeave={this.props.endHighlight} className={classes}>
+			<span className={classes}
+				onMouseEnter={this.props.highlight}
+				onMouseLeave={this.props.endHighlight}
+				onClick={this.props.showGloss}
+			>
 				{particleEl(initialParticle)}
 				{this.props.analysis.highlighted}
 				<span className={this.props.analysis.highlighted && 'highlighted'}>

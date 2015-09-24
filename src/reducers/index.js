@@ -13,6 +13,6 @@ export default function translateTokiponaApp(state, action) {
 		enPhrases: enPhrases(state.enPhrases, action),
 		enSentences: enSentences(state, action),
 		editingPhrase: editingPhrase(state.editingPhrase, state.enPhrases, state.tpPhrases, action),
-		glossPhrase: glossPhrase(state.glossPhrase, state.tpPhrases, action)
+		glossPhrase: glossPhrase(state.glossPhrase, state.tpPhrases, state.enPhrases, action)
 	}
 }

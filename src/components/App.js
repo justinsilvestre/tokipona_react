@@ -35,9 +35,9 @@ class App extends Component {
           pickPhrase={actions.pickPhrase}
         ></PhrasePicker>}
 
-      {this.props.currentGloss && <PopupGloss phrase={this.props.glossPhrase} />}
+      {this.props.glossPhrase && <PopupGloss phrase={this.props.glossPhrase}></PopupGloss>}
 
-      {this.props.tpSentences.map((s, i) => <div key={i}>
+      {this.props.tpSentences.map((s, i) => <div className="sentence-pair" key={i}>
         <TpSentence substantives={s.substantives}
           endPunctuation={s.end_punctuation}
           emphatic={s.emphatic}
@@ -57,6 +57,8 @@ class App extends Component {
       </div>
     );
   }
+
+  
 }
 
 function mapStateToProps(state) {

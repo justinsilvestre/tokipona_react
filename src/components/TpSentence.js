@@ -12,8 +12,9 @@ export default class TpSentence extends Component {
           finalParticle={finalParticle(this.props.substantives, i)}
           roleChain={roleChain(this.props.substantives, i)}
           highlight={() => this.props.highlightPhrasePair(i)}
-          endHighlight={() => this.props.endPhraseHighlight(i)}>
-        </TpSubstantive>);
+          endHighlight={() => this.props.endPhraseHighlight(i)}
+          showGloss={() => this.props.showGloss(substantive.id)}
+        ></TpSubstantive>);
       });
 
     return (

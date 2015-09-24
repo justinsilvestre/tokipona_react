@@ -9,7 +9,6 @@ export default class PhrasePicker extends React.Component {
 
 		return (
 			<div className='phrasepicker'>
-			<h3>{this.props.data.tpPhraseWords}</h3>
 				{enRoles.map(role => {
 					return [
 						<b className="phrasepicker-role">{role}</b>,
