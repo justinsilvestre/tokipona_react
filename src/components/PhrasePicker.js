@@ -9,17 +9,15 @@ export default class PhrasePicker extends React.Component {
 
 		return (
 			<div className='phrasepicker'>
-				{this.props.data ?
-					enRoles.map(role => {
-						return [
-							<b className="phrasepicker-role">{role}</b>,
-							this.props.data.choices.filter(c => c.role === role).map(c => {
-								return (<span onClick={(e) => this.props.pickPhrase(senI, phrI, c)}>{c.base_form} </span>);
-							})
-						]
-					}) : 'no phrase selected'
-				}
-				
+			<h3>{this.props.data.tpPhraseWords}</h3>
+				{enRoles.map(role => {
+					return [
+						<b className="phrasepicker-role">{role}</b>,
+						this.props.data.choices.filter(c => c.role === role).map(c => {
+							return (<span className="phrasepicker-choice" onClick={(e) => this.props.pickPhrase(senI, phrI, c)}>{c.base_form} </span>);
+						})
+					]
+				})}
 			</div>
 		);
 	}

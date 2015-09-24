@@ -7,10 +7,12 @@ export default class EnPhrase extends Component {
   	const display = [mainDisplay,
   		this.props.counterpart.negative && ' (negative)',
   		this.props.counterpart.interrogative && ' (interrogative)']
-  	const classes = this.props.analysis.highlighted && 'highlighted';
+      
+  	var classes = ['english-phrase'];
+    this.props.analysis.highlighted && classes.push('highlighted');
 
   	return (
-  		<span className={classes}
+  		<span className={classes.join(' ')}
         onMouseEnter={this.props.highlight}
         onMouseLeave={this.props.endHighlight} 
         onClick={this.props.showPhrasePicker}>

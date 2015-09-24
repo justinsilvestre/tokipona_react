@@ -3,6 +3,8 @@ export const HIDE_PHRASE_PICKER = 'HIDE_PHRASE_PICKER';
 export const PICK_ENGLISH_PHRASE = 'PICK_ENGLISH_PHRASE';
 export const HIGHLIGHT_PHRASE_PAIR = 'HIGHLIGHT_PHRASE_PAIR';
 export const END_PHRASE_HIGHLIGHT = 'END_PHRASE_HIGHLIGHT';
+export const SHOW_GLOSS = 'SHOW_GLOSS';
+export const HIDE_GLOSS = 'HIDE_GLOSS';
 
 export function showPhrasePicker(sentenceIndex, phraseIndex, tpPhraseId) {
 	return {
@@ -41,5 +43,18 @@ export function endPhraseHighlight(sentenceIndex, phraseIndex) {
 		type: END_PHRASE_HIGHLIGHT,
 		sentenceIndex,
 		phraseIndex
-	}
+	};
+}
+
+export function showGloss(tpPhraseId) {
+	return {
+		type: SHOW_GLOSS,
+		tpPhraseId
+	};
+}
+
+export function hideGloss() {
+	return {
+		type: HIDE_GLOSS
+	};
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TpSubstantive from './TpSubstantive';
 import { phraseRole, phraseEnd, finalParticle, roleChain } from '../grammar';
+import { interpose } from 'lodash-contrib';
 
 export default class TpSentence extends Component {
   render() {
@@ -16,19 +17,11 @@ export default class TpSentence extends Component {
       });
 
     return (
-      <div className="sentence">
-      {substantives}
-      {this.props.emphatic && ' ' + this.props.emphatic}
+      <div className="tp-sentence">
+      {interpose(substantives, ' ')}
+      {this.props.emphatic && ` ${this.props.emphatic}`}
       {this.props.endPunctuation}
       </div>
     );
   }
 }
-      // {vocative ? <Vocative analysis={vocative} precedesClause={predicate} /> : null}
-      // {taso}
-      // {context ? <Clause subject={contextSubject} predicate={contextPredicate} isContext={true}/> : null}
-      // <Clause subject={subject} predicate={predicate} mood={mood} />
-      // {question_tag}
-      // {this.props.analysis.end_punctuation || '.'}
-      // <br />
-      // {voc ? <}

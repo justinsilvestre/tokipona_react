@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { interpose } from 'lodash-contrib';
 
 const T = 't';
 const PREP = 'prep';
@@ -8,24 +7,6 @@ const PRO = 'pro';
 const I = 'i';
 
 const Grammar = {};
-
-Grammar.roles = {
-
-};
-
-Grammar.headRole = function(headParent) {
-	if (_.has(headParent, 'direct_objects')) {
-		return 't';
-	} else if (_.has(headParent, 'prepositional_object')) {
-		return 'prep';
-	} else if (_.has(headParent, 'gerundive')) {
-		return 'prev';
-	} else if (headParent.head.match(/^[A-Z]/)) {
-		return 'pro';
-	} else {
-		return 'i';
-	}
-};
 
 export function principalForm(word) {
 	switch (word) {
@@ -97,9 +78,11 @@ export function roleChain(sentence, wordIndex) {
 	return parentRoles.concat([ sentence[wordIndex].role ]);
 }
 
+const particleTails = { voc: 'o ', cpre: 'la '};
+
 export function finalParticle(substantives, i) {
 	return i === phraseEnd(substantives, i) ?
-		({ voc: 'o ', cpre: 'la '}[phraseRole(substantives, i)] || null)
+		(particleTails[phraseRole(substantives, i)] || null)
 		: null;
 }
 

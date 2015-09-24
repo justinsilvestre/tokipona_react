@@ -15,7 +15,7 @@ export default class EnSentence extends Component {
     )
 
   	return (
-  		<div>
+  		<div className="en-sentence">
   		{interpose(phrases, ' ')}{this.props.counterpart.end_punctuation}
   		</div>
   	);
