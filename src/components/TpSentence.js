@@ -20,7 +20,8 @@ export default class TpSentence extends Component {
     return (
       <div className="tp-sentence">
       {interpose(substantives, ' ')}
-      {this.props.emphatic && ` ${this.props.emphatic}`}
+      {this.props.question_tag && <span className="question-tag"> anu seme</span>}
+      {this.props.emphatic && <span className="emphatic"> {this.props.emphatic}</span>}
       {this.props.endPunctuation}
       </div>
     );

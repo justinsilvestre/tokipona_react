@@ -10,9 +10,9 @@ import PopupGloss from './PopupGloss';
 
 class App extends Component {
   handleClick(e) {
-    if (this.props.editingPhrase && (e.target.className !== 'phrasepicker')) {
+    if (this.props.editingPhrase) {
       this.props.dispatch(TranslateTokiponaActions.hidePhrasePicker());
-    }
+      }
     if (this.props.glossPhrase) {
       this.props.dispatch(TranslateTokiponaActions.hideGloss());
     }
@@ -29,7 +29,7 @@ class App extends Component {
     }
 
     return (
-      <div onClick={this.handleClick.bind(this)}>
+      <div id="tokiponaApp" onClick={this.handleClick.bind(this)}>
       {this.props.editingPhrase &&
         <PhrasePicker data={this.props.editingPhrase}
           pickPhrase={actions.pickPhrase}
